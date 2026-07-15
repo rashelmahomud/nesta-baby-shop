@@ -42,18 +42,6 @@ export default function Header({
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#faf8f5]/80 backdrop-blur-xl border-b border-[#e9e3db]/60 transition-all duration-300" id="store-header">
-      {/* Announcement Bar */}
-      <div className="bg-[#4d594b] text-[#faf8f5] text-[10.5px] uppercase tracking-[0.15em] py-2 px-4 font-sans font-semibold text-center flex justify-center items-center gap-8 relative overflow-hidden" id="header-announcement">
-        <div className="absolute inset-0 bg-white/5 pointer-events-none" />
-        <span className="hidden lg:inline-flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#6c8e6a] animate-pulse" />
-          GOTS Certified Organic Cotton
-        </span>
-        <span className="hidden md:inline text-[#e4ded5]">•</span>
-        <span>Free Shipping on Orders Over $75</span>
-        <span className="hidden lg:inline text-[#e4ded5]">•</span>
-        <span className="hidden lg:inline">Pediatrician Evaluated & Approved</span>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="header-main-nav">
         <div className="flex justify-between items-center h-20">
