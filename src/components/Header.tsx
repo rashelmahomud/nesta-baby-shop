@@ -6,6 +6,8 @@ interface HeaderProps {
   onOpenCart: () => void;
   onScrollToSection: (section: 'home' | 'shop' | 'about' | 'contact') => void;
   onOpenRegistry: () => void;
+  onOpenUserDashboard: () => void;
+  onOpenAdminDashboard: () => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
   // Login integration
@@ -20,6 +22,8 @@ export default function Header({
   onOpenCart,
   onScrollToSection,
   onOpenRegistry,
+  onOpenUserDashboard,
+  onOpenAdminDashboard,
   activeTab,
   setActiveTab,
   loggedInUser,
@@ -37,6 +41,16 @@ export default function Header({
 
   const handleRegistryClick = () => {
     onOpenRegistry();
+    setMobileMenuOpen(false);
+  };
+
+  const handleDashboardClick = () => {
+    onOpenUserDashboard();
+    setMobileMenuOpen(false);
+  };
+
+  const handleAdminClick = () => {
+    onOpenAdminDashboard();
     setMobileMenuOpen(false);
   };
 
@@ -178,6 +192,26 @@ export default function Header({
                       </div>
                       <button
                         onClick={() => {
+                          onOpenUserDashboard();
+                          setUserDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-xs text-[#5c6a5a] hover:bg-[#f5f1ea] flex items-center gap-2 transition-all cursor-pointer border-b border-[#e9e3db]/40 font-semibold"
+                      >
+                        <Baby className="h-3.5 w-3.5" />
+                        <span>My Nest Dashboard</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          onOpenAdminDashboard();
+                          setUserDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-xs text-[#5c6a5a] hover:bg-[#f5f1ea] flex items-center gap-2 transition-all cursor-pointer border-b border-[#e9e3db]/40 font-semibold"
+                      >
+                        <Sprout className="h-3.5 w-3.5" />
+                        <span>Admin Panel</span>
+                      </button>
+                      <button
+                        onClick={() => {
                           onLogout();
                           setUserDropdownOpen(false);
                         }}
@@ -289,6 +323,34 @@ export default function Header({
               <Gift className="h-4 w-4" />
               Registry
             </button>
+
+            {loggedInUser && (
+              <>
+                <button
+                  onClick={handleDashboardClick}
+                  className={`w-full text-left font-sans text-sm font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center gap-2.5 transition-all ${
+                    activeTab === 'dashboard' 
+                      ? 'bg-[#5c6a5a] text-white' 
+                      : 'text-[#6d756b] hover:bg-[#f1ebe1]'
+                  }`}
+                >
+                  <Baby className="h-4 w-4" />
+                  Dashboard
+                </button>
+
+                <button
+                  onClick={handleAdminClick}
+                  className={`w-full text-left font-sans text-sm font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl flex items-center gap-2.5 transition-all ${
+                    activeTab === 'admin' 
+                      ? 'bg-[#5c6a5a] text-white' 
+                      : 'text-[#6d756b] hover:bg-[#f1ebe1]'
+                  }`}
+                >
+                  <Sprout className="h-4 w-4" />
+                  Admin Panel
+                </button>
+              </>
+            )}
 
             <div className="pt-4 border-t border-[#e9e3db]/60">
               {loggedInUser ? (

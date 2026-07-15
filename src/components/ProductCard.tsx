@@ -7,12 +7,22 @@ interface ProductCardProps {
   product: Product;
   onViewDetails: (product: Product) => void;
   onAddToCart: (product: Product, quantity: number, color?: string, size?: string) => void;
+  isWished?: boolean;
+  onToggleWishlist?: (product: Product) => void;
 }
 
-export default function ProductCard({ product, onViewDetails, onAddToCart }: ProductCardProps) {
+export default function ProductCard({ 
+  product, 
+  onViewDetails, 
+  onAddToCart,
+  isWished: externalIsWished,
+  onToggleWishlist
+}: ProductCardProps) {
   const [isAdded, setIsAdded] = useState(false);
-  const [isWished, setIsWished] = useState(false);
+  const [internalIsWished, setInternalIsWished] = useState(false);
   
+  const isWished = externalIsWished !== undefined ? externalIsWished : internalIsWished;
+
   // Interactive color & size configurations directly on the card
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     product.colors && product.colors.length > 0 ? product.colors[0].name : undefined
@@ -28,9 +38,13 @@ export default function ProductCard({ product, onViewDetails, onAddToCart }: Pro
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const toggleWishlist = (e: React.MouseEvent) => {
+  const handleToggleWishlist = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsWished(!isWished);
+    if (onToggleWishlist) {
+      onToggleWishlist(product);
+    } else {
+      setInternalIsWished(!internalIsWished);
+    }
   };
 
   // Main high-profile certification badge
@@ -61,7 +75,7 @@ export default function ProductCard({ product, onViewDetails, onAddToCart }: Pro
 
         {/* Wishlist Button */}
         <button
-          onClick={toggleWishlist}
+          onClick={handleToggleWishlist}
           className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-md border border-[#e9e3db]/60 text-gray-400 hover:text-[#bf826b] transition-all hover:scale-110 shadow-xs"
           title="Save to Nesting Registry"
           id={`wishlist-btn-${product.id}`}

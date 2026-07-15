@@ -29,15 +29,22 @@ import RegistryBuilder from './components/RegistryBuilder';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import LoginModal from './components/LoginModal';
+import CustomerDashboard from './components/CustomerDashboard';
+import AdminDashboard from './components/AdminDashboard';
 
 export default function App() {
   // State variables
+  const [products, setProducts] = useState<Product[]>(PRODUCTS);
+  const [wishlist, setWishlist] = useState<string[]>([]);
+  
   const [cart, setCart] = useState<CartItem[]>([]);
   const [activeTab, setActiveTab] = useState<string>('home');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [showRegistryBuilder, setShowRegistryBuilder] = useState(false);
+  const [showUserDashboard, setShowUserDashboard] = useState(false);
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
   
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('popular');
@@ -109,6 +116,8 @@ export default function App() {
   const onScrollToSection = (section: 'home' | 'shop' | 'about' | 'contact') => {
     setActiveTab(section);
     setShowRegistryBuilder(false);
+    setShowUserDashboard(false);
+    setShowAdminDashboard(false);
 
     if (section === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -202,9 +211,43 @@ export default function App() {
     }
   };
 
+  // Product management actions for Admin Dashboard
+  const handleAddProduct = (newProduct: Product) => {
+    setProducts((prev) => [newProduct, ...prev]);
+  };
+
+  const handleUpdateProduct = (updatedProduct: Product) => {
+    setProducts((prev) =>
+      prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
+    );
+    // Update selected product modal if active
+    if (selectedProduct && selectedProduct.id === updatedProduct.id) {
+      setSelectedProduct(updatedProduct);
+    }
+  };
+
+  const handleDeleteProduct = (productId: string) => {
+    setProducts((prev) => prev.filter((p) => p.id !== productId));
+    // Close selected modal if active
+    if (selectedProduct && selectedProduct.id === productId) {
+      setSelectedProduct(null);
+    }
+  };
+
+  // Wishlist actions for Customer Dashboard & Product Card
+  const handleToggleWishlist = (product: Product) => {
+    setWishlist((prev) =>
+      prev.includes(product.id)
+        ? prev.filter((id) => id !== product.id)
+        : [...prev, product.id]
+    );
+  };
+
+  const wishlistedProducts = products.filter((p) => wishlist.includes(p.id));
+
   // Filtered and Sorted Products
   const getFilteredProducts = () => {
-    let list = [...PRODUCTS];
+    let list = [...products];
 
     // Filter by Category
     if (selectedCategory !== 'all') {
@@ -269,7 +312,28 @@ export default function App() {
         onScrollToSection={onScrollToSection}
         onOpenRegistry={() => {
           setShowRegistryBuilder(true);
+          setShowUserDashboard(false);
+          setShowAdminDashboard(false);
           setActiveTab('registry');
+        }}
+        onOpenUserDashboard={() => {
+          if (!loggedInUser) {
+            setIsLoginOpen(true);
+            alert("Please sign in or use the quick login option in the profile drawer to view your personal Nesting Dashboard!");
+          } else {
+            setShowUserDashboard(true);
+            setShowAdminDashboard(false);
+            setShowRegistryBuilder(false);
+            setActiveTab('dashboard');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }}
+        onOpenAdminDashboard={() => {
+          setShowAdminDashboard(true);
+          setShowUserDashboard(false);
+          setShowRegistryBuilder(false);
+          setActiveTab('admin');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -279,6 +343,8 @@ export default function App() {
         onLogout={() => {
           setLoggedInUser(null);
           setLoggedInBaby(null);
+          setShowUserDashboard(false);
+          setActiveTab('home');
         }}
       />
 
@@ -292,6 +358,27 @@ export default function App() {
               setActiveTab('shop');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
+          />
+        </div>
+      ) : showUserDashboard ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="customer-dashboard-view">
+          <CustomerDashboard 
+            loggedInUser={loggedInUser || "Guest Parent"}
+            loggedInBaby={loggedInBaby}
+            wishlistedProducts={wishlistedProducts}
+            onToggleWishlist={handleToggleWishlist}
+            onAddToCart={handleAddToCart}
+            products={products}
+            onNavigateToShop={() => onScrollToSection('shop')}
+          />
+        </div>
+      ) : showAdminDashboard ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="admin-dashboard-view">
+          <AdminDashboard 
+            products={products}
+            onAddProduct={handleAddProduct}
+            onUpdateProduct={handleUpdateProduct}
+            onDeleteProduct={handleDeleteProduct}
           />
         </div>
       ) : (
@@ -590,6 +677,8 @@ export default function App() {
                     product={prod}
                     onViewDetails={setSelectedProduct}
                     onAddToCart={handleAddToCart}
+                    isWished={wishlist.includes(prod.id)}
+                    onToggleWishlist={handleToggleWishlist}
                   />
                 ))}
               </div>
