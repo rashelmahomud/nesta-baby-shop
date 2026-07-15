@@ -102,7 +102,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }: Pr
 
                 {/* Rating */}
                 <div className="flex items-center gap-2 mt-2">
-                  <div className="flex text-[#d4af37]">
+                  <div className="flex text-[#bf826b]">
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
@@ -127,24 +127,43 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }: Pr
                 </div>
 
                 {/* Description */}
-                <p className="text-xs text-[#6d756b] mt-4 leading-relaxed border-b border-[#f5f1ea] pb-4">
-                  {product.description}
-                </p>
+                <div className="mt-5 space-y-4 border-b border-[#e9e3db]/60 pb-5">
+                  <p className="text-sm text-[#424641] font-sans leading-relaxed">
+                    {product.description}
+                  </p>
+                  
+                  {/* Premium Material Highlight Bar */}
+                  <div className="bg-[#5c6a5a]/5 border border-[#5c6a5a]/10 rounded-2xl p-3.5 flex items-start gap-2.5">
+                    <Leaf className="h-4 w-4 text-[#5c6a5a] mt-0.5 shrink-0" />
+                    <div>
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-[#5c6a5a]">Direct Composition</span>
+                      <span className="text-xs text-[#4a4f49] font-medium leading-normal">{product.materials}</span>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Options Panel: Colors & Sizes */}
-                <div className="mt-4 space-y-4">
+                <div className="mt-5 space-y-5 border-b border-[#e9e3db]/60 pb-5">
                   {product.colors && product.colors.length > 0 && (
                     <div id="detail-color-selector">
-                      <span className="block text-xs font-semibold text-[#323631] uppercase tracking-wider mb-2">
-                        Organic Fabric Color: <span className="font-normal text-[#6d756b]">{selectedColor}</span>
-                      </span>
-                      <div className="flex gap-2.5">
+                      <div className="flex justify-between items-center mb-2.5">
+                        <span className="block text-xs font-bold text-[#323631] uppercase tracking-wider">
+                          Organic Fabric Color
+                        </span>
+                        <span className="text-xs font-semibold text-[#5c6a5a] bg-[#5c6a5a]/5 px-2.5 py-0.5 rounded-full border border-[#5c6a5a]/10">
+                          {selectedColor}
+                        </span>
+                      </div>
+                      <div className="flex gap-3">
                         {product.colors.map((color) => (
                           <button
                             key={color.name}
+                            type="button"
                             onClick={() => setSelectedColor(color.name)}
-                            className={`w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
-                              selectedColor === color.name ? 'border-[#5c6a5a] scale-110' : 'border-[#e9e3db] hover:border-gray-400'
+                            className={`w-9 h-9 rounded-full border-2 transition-all flex items-center justify-center relative shadow-xs ${
+                              selectedColor === color.name 
+                                ? 'border-[#5c6a5a] scale-110 ring-2 ring-[#5c6a5a]/30 ring-offset-2' 
+                                : 'border-[#e9e3db] hover:border-[#6d756b]'
                             }`}
                             style={{ backgroundColor: color.hex }}
                             title={color.name}
@@ -160,18 +179,19 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }: Pr
 
                   {product.sizes && product.sizes.length > 0 && (
                     <div id="detail-size-selector">
-                      <span className="block text-xs font-semibold text-[#323631] uppercase tracking-wider mb-2">
-                        Select Baby Size / Age Group:
+                      <span className="block text-xs font-bold text-[#323631] uppercase tracking-wider mb-2.5">
+                        Select Baby Size / Age Group
                       </span>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2.5">
                         {product.sizes.map((size) => (
                           <button
                             key={size}
+                            type="button"
                             onClick={() => setSelectedSize(size)}
-                            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
+                            className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                               selectedSize === size
-                                ? 'bg-[#5c6a5a] text-[#f7f5f0] border-[#5c6a5a]'
-                                : 'bg-white text-[#6d756b] border-[#e9e3db] hover:border-[#6d756b]'
+                                ? 'bg-[#5c6a5a] text-[#f7f5f0] border-[#5c6a5a] shadow-md'
+                                : 'bg-white text-[#6d756b] border-[#e9e3db] hover:border-[#6d756b] hover:bg-[#faf8f5]'
                             }`}
                           >
                             {size}
@@ -292,7 +312,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }: Pr
                               </p>
                               <p className="text-[10px] text-[#848c82]">{review.role} • {review.date}</p>
                             </div>
-                            <div className="flex text-[#d4af37]">
+                            <div className="flex text-[#bf826b]">
                               {[...Array(5)].map((_, i) => (
                                 <Star 
                                   key={i} 

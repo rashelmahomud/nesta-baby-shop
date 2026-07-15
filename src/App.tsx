@@ -15,7 +15,9 @@ import {
   Menu,
   Star,
   Sprout,
-  Gift
+  Gift,
+  Search,
+  X
 } from 'lucide-react';
 import { Product, CartItem } from './types';
 import { PRODUCTS, HERO_IMAGE_PATH } from './data';
@@ -39,6 +41,7 @@ export default function App() {
   
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('popular');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // User auth sandbox state
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -206,6 +209,18 @@ export default function App() {
     // Filter by Category
     if (selectedCategory !== 'all') {
       list = list.filter((p) => p.category === selectedCategory);
+    }
+
+    // Filter by Search Query
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.materials.toLowerCase().includes(q) ||
+          p.features.some((f) => f.toLowerCase().includes(q))
+      );
     }
 
     // Sort
@@ -440,35 +455,93 @@ export default function App() {
           </section>
 
           {/* Product Storefront Catalog */}
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products-catalog" ref={productsSectionRef}>
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20" id="products-catalog" ref={productsSectionRef}>
             
-            {/* Filter and Sort Headers */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 border-b border-[#e9e3db] pb-6" id="catalog-controls">
-              <div>
-                <h2 className="font-sans font-semibold text-2xl text-[#323631] tracking-tight">Our Organic Nursery Collection</h2>
-                <p className="text-[#848c82] text-xs mt-1">Consciously formulated products. Zero chemical treatments, pure biological origins.</p>
+            {/* Filter, Search and Sort Header Panel */}
+            <div className="bg-[#FAF9F6] border border-[#e9e3db]/80 rounded-3xl p-6 md:p-8 mb-10 shadow-xs" id="catalog-controls-container">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#e9e3db]/60">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-[#6c8e6a] animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#5c6a5a]">
+                      Curated Baby-Safe Standards
+                    </span>
+                  </div>
+                  <h2 className="font-sans font-semibold text-2xl md:text-3xl text-[#323631] tracking-tight">
+                    Our Organic Nursery Collection
+                  </h2>
+                  <p className="text-[#848c82] text-xs md:text-sm">
+                    Strictly chemical-free, pediatrician-endorsed biological essentials.
+                  </p>
+                </div>
+
+                {/* Show dynamic count and clear buttons */}
+                <div className="flex flex-wrap items-center gap-3 text-xs">
+                  <div className="bg-[#5c6a5a]/5 px-3.5 py-2 rounded-full text-[#5c6a5a] font-semibold border border-[#5c6a5a]/10">
+                    Showing <span className="font-bold">{filteredProducts.length}</span> verified items
+                  </div>
+                  {(selectedCategory !== 'all' || searchQuery !== '') && (
+                    <button
+                      onClick={() => {
+                        setSelectedCategory('all');
+                        setSearchQuery('');
+                      }}
+                      className="text-xs font-semibold text-[#bf826b] hover:text-[#a0624c] flex items-center gap-1 cursor-pointer hover:underline"
+                    >
+                      Reset Filters
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Sort selector dropdown */}
-              <div className="flex items-center gap-2 self-stretch md:self-auto" id="sort-filter-box">
-                <span className="text-xs text-[#6d756b] font-medium shrink-0">Sort By:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-white border border-[#e9e3db] text-xs font-semibold rounded-lg px-3 py-2 text-[#323631] focus:outline-hidden focus:ring-1 focus:ring-[#5c6a5a] cursor-pointer w-full md:w-auto"
-                >
-                  <option value="popular">Most Popular</option>
-                  <option value="top-rated">Top Parent Rated</option>
-                  <option value="price-low-high">Price: Low to High</option>
-                  <option value="price-high-low">Price: High to Low</option>
-                </select>
+              {/* Search & Sort Actions Row */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mt-6">
+                {/* Search Input */}
+                <div className="relative md:col-span-8 flex items-center">
+                  <Search className="absolute left-3.5 h-4 w-4 text-[#848c82]" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search crib sheets, swaddles, wooden play gym, rattles, feeding cups..."
+                    className="w-full pl-10 pr-10 py-3.5 text-xs bg-white border border-[#e9e3db] rounded-2xl text-[#323631] placeholder-[#a6ada5] focus:outline-hidden focus:ring-1 focus:ring-[#5c6a5a] transition-all"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 p-1.5 rounded-full text-[#848c82] hover:text-black hover:bg-gray-100"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Sort Select */}
+                <div className="relative md:col-span-4 flex items-center">
+                  <div className="absolute left-3.5 text-[10px] uppercase font-bold tracking-wider text-[#848c82]">
+                    Sort By
+                  </div>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full pl-20 pr-10 py-3.5 text-xs font-bold bg-white border border-[#e9e3db] rounded-2xl text-[#323631] focus:outline-hidden focus:ring-1 focus:ring-[#5c6a5a] cursor-pointer appearance-none transition-all"
+                  >
+                    <option value="popular">🔥 Most Popular</option>
+                    <option value="top-rated">★ Top Parent Rated</option>
+                    <option value="price-low-high">↑ Price: Low to High</option>
+                    <option value="price-high-low">↓ Price: High to Low</option>
+                  </select>
+                  <div className="pointer-events-none absolute right-3 text-gray-400">
+                    <ChevronRight className="h-3.5 w-3.5 rotate-90" />
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-2.5 mb-8 overflow-x-auto pb-2" id="category-pills-row">
+            <div className="flex flex-wrap gap-2.5 mb-10 overflow-x-auto pb-2 scrollbar-none" id="category-pills-row">
               {[
-                { id: 'all', label: 'All Items' },
+                { id: 'all', label: '🌾 All Items' },
                 { id: 'sleep', label: '💤 Sleep & Swaddles' },
                 { id: 'gear', label: '🎒 Ergonomic Gear' },
                 { id: 'play', label: '🧸 Wooden Play' },
@@ -479,10 +552,10 @@ export default function App() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer shrink-0 border ${
+                  className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all cursor-pointer shrink-0 border ${
                     selectedCategory === category.id
-                      ? 'bg-[#5c6a5a] text-[#f7f5f0] border-[#5c6a5a] shadow-xs'
-                      : 'bg-white text-[#6d756b] border-[#e9e3db] hover:border-[#6d756b]'
+                      ? 'bg-[#5c6a5a] text-[#f7f5f0] border-[#5c6a5a] shadow-md'
+                      : 'bg-white text-[#6d756b] border-[#e9e3db] hover:border-[#6d756b] hover:bg-gray-50'
                   }`}
                   id={`cat-pill-${category.id}`}
                 >
@@ -493,17 +566,24 @@ export default function App() {
 
             {/* Products Grid */}
             {filteredProducts.length === 0 ? (
-              <div className="text-center py-16" id="no-products-found">
-                <p className="text-[#6d756b] font-semibold text-base">No items match this category.</p>
+              <div className="text-center py-20 bg-white rounded-3xl border border-[#e9e3db] p-8" id="no-products-found">
+                <div className="w-16 h-16 bg-[#faf8f5] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#e9e3db]">
+                  <Search className="h-6 w-6 text-[#848c82]" />
+                </div>
+                <h3 className="text-base font-semibold text-[#323631]">No items match your search filters</h3>
+                <p className="text-xs text-[#848c82] mt-1 max-w-sm mx-auto">Try checking your spelling, looking in another category, or reset the filters below to browse our full collection.</p>
                 <button
-                  onClick={() => setSelectedCategory('all')}
-                  className="text-xs underline text-[#5c6a5a] font-bold mt-2 hover:text-black"
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setSearchQuery('');
+                  }}
+                  className="bg-[#5c6a5a] text-white text-xs font-bold px-5 py-2.5 rounded-xl mt-6 hover:bg-[#4d594b] transition-all cursor-pointer"
                 >
-                  Clear filters
+                  Reset All Filters
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="products-catalog-grid">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-8" id="products-catalog-grid">
                 {filteredProducts.map((prod) => (
                   <ProductCard 
                     key={prod.id}

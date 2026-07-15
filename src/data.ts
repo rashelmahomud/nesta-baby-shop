@@ -1,6 +1,6 @@
 import { Product } from './types';
 
-export const HERO_IMAGE_PATH = '/src/assets/images/nursery_hero_1784084308879.jpg';
+export const HERO_IMAGE_PATH = 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=1200';
 
 export const TRUST_FEATURES = [
   {
@@ -11,7 +11,7 @@ export const TRUST_FEATURES = [
   {
     title: "Pediatrician Evaluated",
     description: "Every item is reviewed by leading pediatric medical experts for developmental safety.",
-    icon: "Hearts"
+    icon: "Heart"
   },
   {
     title: "Non-Toxic Materials",
@@ -35,7 +35,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 128,
     image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&q=80&w=600",
-    description: "Designed to mimic the secure, warm feeling of the womb. Breathable GOTS-certified organic cotton keeps babies at the perfect body temperature, significantly reducing startle reflex and improving sleep duration.",
+    description: "Expertly engineered to mimic the maternal safety of the womb. Spun from ultra-fine, double-stretch GOTS certified organic cotton, it maintains a micro-climate of optimal body temperature. Features a scientific flared hip pocket and gentle sensory compression to ease startle reflex and promote deeper, restful sleep cycles.",
     features: [
       "2-way premium zipper for easy, disturbances-free midnight diaper changes",
       "Ergonomic, hip-healthy spacious bottom pocket design",
@@ -95,7 +95,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewCount: 94,
     image: "https://images.unsplash.com/photo-1594782078968-2b07656d7bb2?auto=format&fit=crop&q=80&w=600",
-    description: "An ultra-supportive, fully adjustable baby carrier designed for long-term comfort. Ergonomic structure distributes your baby's weight evenly across your hips and shoulders, allowing for natural front-inward, front-outward, and back carry.",
+    description: "A masterclass in ergonomic babywearing, tailored from lightweight, breathable Belgian flax-linen and organic viscose. Features a patented dual-adjustable lumbar support belt and thickly padded memory-foam shoulder straps that evenly distribute weight. Offers certified hip-healthy leg support in four versatile carry modes.",
     features: [
       "Customizable lumbar support and padded crossable shoulder straps",
       "Made with breathable, hypoallergenic lightweight structured linen",
@@ -141,7 +141,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 82,
     image: "https://images.unsplash.com/photo-1515488042361-404e9250afef?auto=format&fit=crop&q=80&w=600",
-    description: "Designed to encourage early sensory-motor exploration and visual tracking. Features a highly stable, foldable solid Baltic birch frame and five interchangeable developmental organic cotton toys that rattle, crinkle, and chime.",
+    description: "A minimalist sensory sanctuary designed to cultivate early cognitive pathways and gross motor milestones. Crafted from sustainably harvested, FSC-certified Baltic birch and coated with a pure food-grade beeswax sealant. Includes a plush, quilted organic cotton activity mat and five detachable developmental sensory charms.",
     features: [
       "Sustainably harvested FSC certified Baltic birch frame",
       "Non-toxic, food-grade water-based sealant",
@@ -190,7 +190,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewCount: 67,
     image: "https://images.unsplash.com/photo-1537673156864-5d2de08cf9bc?auto=format&fit=crop&q=80&w=600",
-    description: "A secure, localized baby monitor that offers true peace of mind. Unlike Wi-Fi monitors prone to security hacks, the Guardian uses secure FHSS 2.4GHz digital connection to provide an encrypted, stable, 1000-ft range video feed directly to your parent unit.",
+    description: "A state-of-the-art secure nursery monitoring system utilizing localized FHSS 2.4GHz encrypted technology for bulletproof privacy. Features an ultra-crisp 1080p high-definition camera with crystal-clear infrared night vision, a hyper-accurate ambient microclimate tracker, and a parent-to-baby high-fidelity feedback intercom.",
     features: [
       "Full HD 1080p camera with active infrared night vision",
       "Localized room temperature and humidity tracking alerts",
@@ -235,7 +235,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     reviewCount: 55,
     image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
-    description: "Help your child transition to independent eating with our 100% natural, biodegradable bamboo tableware. Equipped with a strong silicone suction ring that firmly sticks to flat highchair trays, preventing spills and kitchen cleanups.",
+    description: "An eco-conscious dining set designed for seamless baby-led weaning. Sculpted from premium, naturally anti-microbial renewable bamboo wood and reinforced with a heavy-duty food-grade suction ring. Includes a split-section divided plate, toddler cup, and an ultra-soft ergonomic gum-safe silicone training spoon.",
     features: [
       "FSC certified biodegradable bamboo and food-grade silicone",
       "Smart divider sectioning for healthy, balanced portion sizes",
@@ -286,7 +286,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewCount: 112,
     image: "https://images.unsplash.com/photo-1619086303291-0ef7b4140da3?auto=format&fit=crop&q=80&w=600",
-    description: "A premium pack of three butter-soft organic cotton bodysuits designed with envelope necks and nickel-free bottom snaps. Features flat-lock internal seams to protect your newborn's ultra-sensitive skin from chafing.",
+    description: "A curated collection of three essential foundation bodysuits, spun from premium long-staple combed organic cotton. Designed with expand-easy envelope necklines for hassle-free dressing and flat-lock safety seams. Finished with lead-free, hypoallergenic bottom snap fasteners to prevent contact dermatitis on delicate infant skin.",
     features: [
       "100% GOTS certified premium combed organic cotton",
       "Envelope neckline slides down over shoulders easily in case of diaper blowouts",
@@ -330,7 +330,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewCount: 76,
     image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&q=80&w=600",
-    description: "An ultra-plush, hypoallergenic hooded towel shaped with adorable bear ears. Crafted from heavy 500 GSM organic bamboo fibers, making it twice as thick and absorbent as standard cotton towels, wrapping your little one in instant warmth.",
+    description: "An exquisite, ultra-plush bath-time ritual hooded towel crafted from premium 500 GSM organic bamboo viscose. Unbelievably soft and twice as absorbent as conventional cotton, it immediately insulates the baby's body temperature post-bath while protecting sensitive skin. Whimsically finished with hand-stitched bear cub ears.",
     features: [
       "Natural premium organic bamboo fabric (500 GSM density)",
       "Naturally anti-bacterial, odor-resistant, and mildew-resistant",
@@ -375,7 +375,7 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewCount: 42,
     image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=600",
-    description: "A set of 9 squeezeable, textured, food-grade silicone play blocks. Each block features a unique tactile surface, animal relief, counting numbers, and geometrical shapes to encourage comprehensive cognitive and sensory milestone progress.",
+    description: "An elegant developmental set of nine tactile relief blocks, sculpted from 100% pure food-grade medical silicone. Each block displays detailed three-dimensional architectural motifs, animal relief portraits, numbers, and basic mathematics, carefully textured to guide fine-motor coordination and auditory-sensory stimulation.",
     features: [
       "100% food-grade medical-grade silicone, free from nitrosamines",
       "Perfectly sized for tiny hands to grasp, squeeze, and hold",
