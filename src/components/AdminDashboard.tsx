@@ -360,7 +360,7 @@ export default function AdminDashboard({
         </div>
 
         {/* Navigation buttons */}
-        <div className="flex flex-wrap gap-2 w-full xl:w-auto" id="admin-tabs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto" id="admin-tabs">
           {[
             { id: 'metrics', label: '📊 Sales Metrics', icon: BarChart2 },
             { id: 'catalog', label: '📦 SKU Inventory', icon: Package },
@@ -377,14 +377,14 @@ export default function AdminDashboard({
                   setIsAdding(false);
                   setEditingId(null);
                 }}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   active
                     ? 'bg-[#5c6a5a] text-white shadow-md shadow-[#5c6a5a]/10 border border-[#5c6a5a]'
                     : 'bg-white text-[#6d756b] border border-[#e9e3db] hover:border-[#6d756b] hover:bg-white'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{tab.label}</span>
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="truncate">{tab.label}</span>
               </button>
             );
           })}
@@ -396,7 +396,7 @@ export default function AdminDashboard({
         <div className="space-y-8 animate-fade-in" id="admin-metrics-view">
           
           {/* Bento statistcs layout */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               { label: 'Cumulative Gross Revenue', val: `$${totalRev.toLocaleString()}`, change: '+12.5% vs last week', icon: DollarSign, color: 'text-green-600 bg-green-50/60 border border-green-100' },
               { label: 'Subscribed Registries', val: `${registries.length + 155} active`, change: '+24 parents today', icon: Gift, color: 'text-[#bf826b] bg-[#bf826b]/5 border border-[#bf826b]/10' },
@@ -519,16 +519,16 @@ export default function AdminDashboard({
                 </svg>
 
                 {/* X Axis Labels */}
-                <div className="flex justify-between text-[10px] font-bold text-[#848c82] uppercase tracking-wider pt-3">
-                  <span>July 9</span>
-                  <span>July 10</span>
-                  <span>July 11</span>
-                  <span>July 12</span>
-                  <span>July 13</span>
-                  <span>July 14</span>
+                <div className="flex justify-between text-[9px] sm:text-[10px] font-bold text-[#848c82] uppercase tracking-wider pt-3">
+                  <span>Jul 9</span>
+                  <span>Jul 10</span>
+                  <span>Jul 11</span>
+                  <span>Jul 12</span>
+                  <span>Jul 13</span>
+                  <span>Jul 14</span>
                   <span className="text-[#bf826b] font-extrabold flex items-center gap-1">
-                    <span className="h-2 w-2 rounded-full bg-[#bf826b] animate-ping" />
-                    July 15 (Active)
+                    <span className="h-2 w-2 rounded-full bg-[#bf826b] animate-ping shrink-0" />
+                    <span>Jul 15<span className="hidden sm:inline"> (Active)</span></span>
                   </span>
                 </div>
               </div>
@@ -818,7 +818,8 @@ export default function AdminDashboard({
 
           {/* Product inventory list card */}
           <div className="bg-white border border-[#e9e3db] rounded-3xl overflow-hidden shadow-2xs">
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-[#FAF9F6] border-b border-[#e9e3db]/60 text-[#848c82] uppercase font-bold text-[9px] tracking-wider">
@@ -869,6 +870,7 @@ export default function AdminDashboard({
                         <td className="py-4.5 px-6">
                           <div className="flex items-center justify-center gap-2.5">
                             <button
+                              type="button"
                               onClick={() => handleAdjustStock(prod.id, -1)}
                               className="w-7 h-7 rounded-full border border-[#e9e3db] hover:border-black bg-[#faf8f5] hover:bg-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer shadow-2xs"
                               title="Decrease Stock"
@@ -877,12 +879,13 @@ export default function AdminDashboard({
                             </button>
                             
                             <span className={`font-bold font-mono text-sm min-w-[30px] text-center ${
-                              prod.stock <= 5 ? 'text-[#bf826b] underline decoration-wavy font-extrabold' : 'text-gray-800'
+                                prod.stock <= 5 ? 'text-[#bf826b] underline decoration-wavy font-extrabold' : 'text-gray-800'
                             }`}>
                               {prod.stock}
                             </span>
 
                             <button
+                              type="button"
                               onClick={() => handleAdjustStock(prod.id, 1)}
                               className="w-7 h-7 rounded-full border border-[#e9e3db] hover:border-black bg-[#faf8f5] hover:bg-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer shadow-2xs"
                               title="Increase Stock"
@@ -897,6 +900,7 @@ export default function AdminDashboard({
                         <td className="py-4.5 px-6 text-right">
                           <div className="flex justify-end gap-2">
                             <button
+                              type="button"
                               onClick={() => handleStartEdit(prod)}
                               className="p-2.5 rounded-xl border border-gray-200 hover:border-[#5c6a5a] text-[#5c6a5a] hover:bg-gray-50 transition-all cursor-pointer"
                               title="Edit Product Details"
@@ -904,6 +908,7 @@ export default function AdminDashboard({
                               <Edit2 className="h-3.5 w-3.5" />
                             </button>
                             <button
+                              type="button"
                               onClick={() => handleDelete(prod.id)}
                               className="p-2.5 rounded-xl border border-red-100 hover:border-red-400 text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                               title="Delete SKU"
@@ -917,6 +922,100 @@ export default function AdminDashboard({
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Responsive Cards */}
+            <div className="block md:hidden divide-y divide-[#f5f1ea]" id="admin-catalog-mobile-cards">
+              {getFilteredCatalog().length === 0 ? (
+                <div className="py-12 text-center text-gray-400 font-medium text-xs bg-white">
+                  No organic products match your current search/filters criteria.
+                </div>
+              ) : (
+                getFilteredCatalog().map(prod => (
+                  <div key={prod.id} className="p-5 space-y-4 hover:bg-gray-50/50 transition-colors bg-white">
+                    <div className="flex gap-4 items-start">
+                      <img 
+                        src={prod.image} 
+                        alt={prod.name} 
+                        className="w-14 h-14 rounded-xl object-cover border border-[#e9e3db] shadow-2xs shrink-0"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="flex-1 min-w-0 space-y-1">
+                        <span className="font-bold text-[#323631] text-xs block leading-snug">{prod.name}</span>
+                        <span className="text-[10px] text-[#848c82] block truncate font-medium">{prod.materials}</span>
+                        <div className="pt-0.5">
+                          <span className="bg-[#5c6a5a]/5 text-[#5c6a5a] border border-[#5c6a5a]/10 px-2 py-0.5 rounded-full text-[9px] font-bold capitalize inline-block">
+                            {prod.category}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center bg-[#FAF9F6] p-3 rounded-xl border border-[#e9e3db]/50 gap-4">
+                      <div className="space-y-0.5">
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Price</span>
+                        <span className="font-bold text-xs text-[#323631] font-mono block">${prod.price.toFixed(2)}</span>
+                        {prod.originalPrice && (
+                          <span className="text-[9px] text-gray-400 line-through block font-mono leading-none">${prod.originalPrice.toFixed(2)}</span>
+                        )}
+                      </div>
+
+                      <div className="space-y-1 text-center shrink-0">
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block mb-0.5">Active Depot Stock</span>
+                        <div className="flex items-center gap-2 justify-center">
+                          <button
+                            type="button"
+                            onClick={() => handleAdjustStock(prod.id, -1)}
+                            className="w-7 h-7 rounded-full border border-[#e9e3db] hover:border-black bg-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                            title="Decrease Stock"
+                          >
+                            -
+                          </button>
+                          
+                          <span className={`font-bold font-mono text-xs min-w-[20px] text-center ${
+                            prod.stock <= 5 ? 'text-[#bf826b] underline decoration-wavy font-extrabold' : 'text-gray-800'
+                          }`}>
+                            {prod.stock}
+                          </span>
+
+                          <button
+                            type="button"
+                            onClick={() => handleAdjustStock(prod.id, 1)}
+                            className="w-7 h-7 rounded-full border border-[#e9e3db] hover:border-black bg-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                            title="Increase Stock"
+                          >
+                            +
+                          </button>
+                        </div>
+                        {prod.stock <= 5 && (
+                          <span className="text-[8px] font-bold text-[#bf826b] block uppercase tracking-wider animate-pulse leading-none mt-1">Low Stock</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => handleStartEdit(prod)}
+                        className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl border border-gray-200 hover:border-[#5c6a5a] text-[#5c6a5a] hover:bg-gray-50 transition-all cursor-pointer font-bold text-[11px]"
+                        title="Edit Product Details"
+                      >
+                        <Edit2 className="h-3 w-3" />
+                        <span>Edit SKU</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(prod.id)}
+                        className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl border border-red-100 hover:border-red-400 text-red-500 hover:bg-red-50 transition-all cursor-pointer font-bold text-[11px]"
+                        title="Delete SKU"
+                      >
+                        <Trash className="h-3 w-3" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -946,7 +1045,8 @@ export default function AdminDashboard({
           </div>
 
           <div className="bg-white border border-[#e9e3db] rounded-3xl overflow-hidden shadow-2xs">
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-[#FAF9F6] border-b border-[#e9e3db]/60 text-[#848c82] uppercase font-bold text-[9px] tracking-wider">
@@ -996,6 +1096,7 @@ export default function AdminDashboard({
                             
                             {/* Printer Icon for compostable label printing */}
                             <button
+                              type="button"
                               onClick={() => alert(`Generating certified compostable shipping sticker for ${order.id}. Routing via zero-emission cargo courier...`)}
                               className="p-2 rounded-lg border border-gray-200 hover:border-[#bf826b] hover:bg-amber-50/30 text-gray-500 hover:text-[#bf826b] transition-all cursor-pointer"
                               title="Print Compostable Courier Label"
@@ -1026,6 +1127,79 @@ export default function AdminDashboard({
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Cards for Orders */}
+            <div className="block lg:hidden divide-y divide-[#f5f1ea]" id="admin-orders-mobile-cards">
+              {getFilteredOrders().length === 0 ? (
+                <div className="py-12 text-center text-gray-400 font-medium text-xs bg-white">
+                  No orders match your active search terms.
+                </div>
+              ) : (
+                getFilteredOrders().map(order => (
+                  <div key={order.id} className="p-5 space-y-3.5 hover:bg-gray-50/50 transition-colors bg-white text-xs">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-mono font-bold text-sm text-[#323631] block">{order.id}</span>
+                        <span className="text-[10px] text-gray-400 block mt-0.5">🗓️ Ordered: {order.date}</span>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${
+                        order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
+                        order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' :
+                        order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
+                        'bg-amber-100 text-amber-800'
+                      }`}>
+                        {order.status}
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5 bg-[#FAF9F6] p-3.5 rounded-xl border border-[#e9e3db]/50">
+                      <div>
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Customer</span>
+                        <span className="font-semibold text-[#323631] break-all">{order.customer}</span>
+                      </div>
+                      <div className="pt-2">
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Purchased SKUs</span>
+                        <p className="font-medium text-[#6d756b] mt-0.5">{order.items}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-1.5 gap-4">
+                      <div>
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block leading-none mb-0.5">Total Amount</span>
+                        <span className="font-bold text-sm text-[#323631] font-mono">${order.total.toFixed(2)}</span>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => alert(`Generating certified compostable shipping sticker for ${order.id}. Routing via zero-emission cargo courier...`)}
+                          className="p-2 rounded-xl border border-gray-200 hover:border-[#bf826b] hover:bg-amber-50/30 text-gray-500 hover:text-[#bf826b] transition-all cursor-pointer"
+                          title="Print Compostable Courier Label"
+                        >
+                          <Printer className="h-4 w-4" />
+                        </button>
+
+                        <select
+                          value={order.status}
+                          onChange={(e) => handleChangeOrderStatus(order.id, e.target.value as any)}
+                          className={`bg-white border rounded-xl px-2.5 py-2 text-xs font-bold text-center cursor-pointer focus:outline-hidden ${
+                            order.status === 'Delivered' ? 'border-green-300 text-green-800 bg-green-50/50' :
+                            order.status === 'Shipped' ? 'border-blue-300 text-blue-800 bg-blue-50/50' :
+                            order.status === 'Cancelled' ? 'border-red-300 text-red-800 bg-red-50/50' :
+                            'border-amber-300 text-amber-800 bg-amber-50/50'
+                          }`}
+                        >
+                          <option value="Processing">⏳ Processing</option>
+                          <option value="Shipped">🚚 Shipped</option>
+                          <option value="Delivered">✓ Delivered</option>
+                          <option value="Cancelled">✗ Cancelled</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -1054,7 +1228,8 @@ export default function AdminDashboard({
           </div>
 
           <div className="bg-white border border-[#e9e3db] rounded-3xl overflow-hidden shadow-2xs">
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-[#FAF9F6] border-b border-[#e9e3db]/60 text-[#848c82] uppercase font-bold text-[9px] tracking-wider">
@@ -1109,6 +1284,54 @@ export default function AdminDashboard({
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* Mobile Cards for Registries */}
+            <div className="block lg:hidden divide-y divide-[#f5f1ea]" id="admin-registries-mobile-cards">
+              {getFilteredRegistries().length === 0 ? (
+                <div className="py-12 text-center text-gray-400 font-medium text-xs bg-white">
+                  No registries match your search criteria.
+                </div>
+              ) : (
+                getFilteredRegistries().map(reg => (
+                  <div key={reg.id} className="p-5 space-y-3.5 hover:bg-gray-50/50 transition-colors bg-white text-xs">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-mono font-bold text-sm text-[#bf826b] block">{reg.id}</span>
+                        <span className="text-[10px] text-gray-400 block mt-0.5">Parent: {reg.parent}</span>
+                      </div>
+                      <span className="bg-[#bf826b]/5 border border-[#bf826b]/10 text-[#bf826b] px-2.5 py-1 rounded-full text-[9px] font-extrabold uppercase shrink-0">
+                        {reg.babyStage}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center bg-[#FAF9F6] p-3 rounded-xl border border-[#e9e3db]/50 gap-4">
+                      <div>
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Nursery Theme</span>
+                        <span className="font-bold text-xs text-[#5c6a5a]">🎨 {reg.theme}</span>
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Items Saved</span>
+                        <span className="font-bold text-xs text-[#323631] font-mono">{reg.itemsCount} Items</span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-[9px] text-[#848c82] uppercase font-bold tracking-wider block">Registry State</span>
+                      <select
+                        value={reg.status}
+                        onChange={(e) => handleChangeRegistryStatus(reg.id, e.target.value as any)}
+                        className="bg-white border border-[#e9e3db] rounded-xl px-2.5 py-1.5 text-xs font-bold cursor-pointer focus:outline-hidden hover:border-[#6d756b] transition-all"
+                      >
+                        <option value="Draft">Draft Mode</option>
+                        <option value="Active">⭐ Active Registry</option>
+                        <option value="Completed">✓ Gift Completed</option>
+                      </select>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

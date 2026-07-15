@@ -256,7 +256,7 @@ export default function CustomerDashboard({
         </div>
 
         {/* Dashboard Navigation Tabs */}
-        <div className="flex flex-wrap gap-2 w-full xl:w-auto" id="dashboard-subtabs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto" id="dashboard-subtabs">
           {[
             { id: 'overview', label: '🌱 Nesting Hub', icon: Sprout },
             { id: 'orders', label: '📦 Orders & Shipping', icon: ShoppingBag },
@@ -272,14 +272,14 @@ export default function CustomerDashboard({
                   setActiveSubTab(tab.id as any);
                   setExpandedGPSOrderId(null);
                 }}
-                className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   active
                     ? 'bg-[#5c6a5a] text-white shadow-md shadow-[#5c6a5a]/10 border border-[#5c6a5a]'
                     : 'bg-white text-[#6d756b] border border-[#e9e3db] hover:border-[#6d756b] hover:bg-white'
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{tab.label}</span>
+                <Icon className="h-4 w-4 shrink-0" />
+                <span className="truncate">{tab.label}</span>
               </button>
             );
           })}
@@ -594,6 +594,15 @@ export default function CustomerDashboard({
                     onClick={() => {
                       setSelectedOrderId(order.id);
                       setExpandedGPSOrderId(null);
+                      // Smooth scroll to details on mobile screens
+                      if (window.innerWidth < 1024) {
+                        setTimeout(() => {
+                          const element = document.getElementById('selected-order-detail-card');
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }, 50);
+                      }
                     }}
                     className={`p-5 rounded-2xl border transition-all cursor-pointer relative text-xs ${
                       isSelected
@@ -647,7 +656,7 @@ export default function CustomerDashboard({
               if (!order) return null;
 
               return (
-                <div className="bg-white border border-[#e9e3db] rounded-3xl p-6 md:p-8 space-y-6">
+                <div id="selected-order-detail-card" className="bg-white border border-[#e9e3db] rounded-3xl p-6 md:p-8 space-y-6 scroll-mt-6">
                   
                   {/* Detailed Specs Banner */}
                   <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-[#e9e3db]/60 pb-5">

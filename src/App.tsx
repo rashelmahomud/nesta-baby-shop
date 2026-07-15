@@ -17,7 +17,11 @@ import {
   Sprout,
   Gift,
   Search,
-  X
+  X,
+  Stethoscope,
+  Quote,
+  GraduationCap,
+  Activity
 } from 'lucide-react';
 import { Product, CartItem } from './types';
 import { PRODUCTS, HERO_IMAGE_PATH } from './data';
@@ -61,6 +65,19 @@ export default function App() {
 
   // FAQ collapse state
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Medical Advisory Board interactive state
+  const [activeAdvisorId, setActiveAdvisorId] = useState<string>('all');
+  const [safetyInquiryInput, setSafetyInquiryInput] = useState<string>('');
+  const [isAnalyzingSafety, setIsAnalyzingSafety] = useState<boolean>(false);
+  const [safetyAnalysisResponse, setSafetyAnalysisResponse] = useState<{
+    status: 'APPROVED' | 'GUIDANCE' | 'WARNING';
+    title: string;
+    advisorName: string;
+    advisorTitle: string;
+    response: string;
+    vettedMetrics: string[];
+  } | null>(null);
 
   // Scroll references
   const homeRef = useRef<HTMLDivElement>(null);
@@ -245,6 +262,108 @@ export default function App() {
 
   const wishlistedProducts = products.filter((p) => wishlist.includes(p.id));
 
+  // Medical Advisory Board Safety Inquiry Analyzer
+  const handleSafetyInquirySubmit = (e?: React.FormEvent, presetQuery?: string) => {
+    if (e) e.preventDefault();
+    const query = (presetQuery || safetyInquiryInput).trim();
+    if (!query) return;
+
+    setSafetyInquiryInput(query);
+    setIsAnalyzingSafety(true);
+    setSafetyAnalysisResponse(null);
+
+    // Simulate clinical audit latency
+    setTimeout(() => {
+      const lowerQuery = query.toLowerCase();
+      let responseObj: typeof safetyAnalysisResponse = null;
+
+      if (
+        lowerQuery.includes('hip') || 
+        lowerQuery.includes('posture') || 
+        lowerQuery.includes('swaddle') || 
+        lowerQuery.includes('carrier') || 
+        lowerQuery.includes('sleep') ||
+        lowerQuery.includes('spine') ||
+        lowerQuery.includes('dysplasia')
+      ) {
+        responseObj = {
+          status: 'APPROVED',
+          title: 'Pediatric Orthopedic Posture & Spinal Audit',
+          advisorName: 'Dr. Evelyn Thorne, MD, FAAP',
+          advisorTitle: 'Chief Medical Advisor & Pediatric Orthopedics Specialist (Harvard MD)',
+          response: 'Our anatomical studies of infant swaddling and carrier dynamics confirm that Nesta textiles support ideal orthopedic development. Keeping the hips in a natural, relaxed "M-shape" (with knees slightly higher than the hips) is critical during the first six months of life. This positions the femoral head securely inside the pelvic socket, fostering healthy cartilaginous alignment and preventing developmental joint dysplasia (DDH) or spinal compression.',
+          vettedMetrics: [
+            'International Hip Dysplasia Institute Approved "Hip Healthy" Architecture',
+            'Zero-Pressure Spinal Curvature Support with GOTS Certified Cotton Bedding',
+            'Friction-Free Organic Bamboo Ribbing for Gentle Thermal Regulation'
+          ]
+        };
+      } else if (
+        lowerQuery.includes('tox') || 
+        lowerQuery.includes('chem') || 
+        lowerQuery.includes('dye') || 
+        lowerQuery.includes('pesticide') || 
+        lowerQuery.includes('organic') || 
+        lowerQuery.includes('cotton') ||
+        lowerQuery.includes('flame') ||
+        lowerQuery.includes('retardant') ||
+        lowerQuery.includes('lead')
+      ) {
+        responseObj = {
+          status: 'APPROVED',
+          title: 'Environmental Pediatric Biomaterial & Toxicology Screening',
+          advisorName: 'Dr. Marcus Vance, PhD',
+          advisorTitle: 'Senior Pediatric Toxicologist & Biomaterial Scientist (Stanford PhD)',
+          response: 'Our chemical mass spectrometry audits verify that GOTS certified organic materials used in Nesta textiles are 100% free of harmful organophosphorus flame retardants, formaldehyde finishes, heavy metals, and endocrine-disrupting pesticides. Because infant skin is up to five times thinner than adult skin and highly permeable, eliminating chemical trace residues is crucial for preventing contact dermatitis and long-term toxic bioaccumulation.',
+          vettedMetrics: [
+            '0.00% Pesticide & Heavy Metal Trace Residues Detected (None Detected)',
+            'OEKO-TEX Standard 100 Class I (Infant) Chemical Safety Approval',
+            'Verified GOTS Transactional Pipeline Certificate #1024881'
+          ]
+        };
+      } else if (
+        lowerQuery.includes('toy') || 
+        lowerQuery.includes('wood') || 
+        lowerQuery.includes('paint') || 
+        lowerQuery.includes('silicone') || 
+        lowerQuery.includes('chew') || 
+        lowerQuery.includes('teeth') ||
+        lowerQuery.includes('blocks') ||
+        lowerQuery.includes('bpa') ||
+        lowerQuery.includes('flax')
+      ) {
+        responseObj = {
+          status: 'APPROVED',
+          title: 'Sensory Motor Coordination & Tactile Assessment',
+          advisorName: 'Sarah Lin, OTR/L',
+          advisorTitle: 'Pediatric Occupational Therapist & Infant Ergonomics Director (Boston MS)',
+          response: 'Every plaything is ergonomically calibrated to the grasp reflexes and tactile safety of infants. Crafting blocks and sensory accessories out of 100% pure food-grade silicone or sustainably sourced FSC hardwoods avoids synthetic plasticizers, BPA, and heavy metals. Friction-sealing the wood with cold-pressed organic flax oil or natural beeswax ensures mouth-on exploration (teething) remains completely non-toxic and sensory-enriching.',
+          vettedMetrics: [
+            'Phthalate-Free & BPA-Free Pure Medical-Grade Food Silicone',
+            'Rigorous ASTM F963 (U.S.) and EN71 (Europe) Toy Safety Certifications',
+            'Solid FSC-Certified Hardwoods Friction-Sealed with Organic Vegetable Linseed'
+          ]
+        };
+      } else {
+        responseObj = {
+          status: 'APPROVED',
+          title: 'Double-Blind Pediatric Safety & Material Durability Audit',
+          advisorName: 'Dr. Evelyn Thorne, MD, FAAP',
+          advisorTitle: 'Chief Medical Advisor & Pediatric Orthopedics Specialist (Harvard MD)',
+          response: 'The Medical Advisory Board has fully audited your inquiry. All material textiles, organic toy assemblies, and mechanical fasteners undergo rigorous double-blind screening to ensure maximum pediatric safety. We cross-reference joint stress tolerance, allergen profiles, and chemical emission indices to ensure your nursery remains a pristine, supportive, and perfectly pure sanctuary.',
+          vettedMetrics: [
+            'Verified Pediatrician Posture and Developmental Ergonomics Checked',
+            'Independent Accredited Lab Auditing for zero VOC off-gassing',
+            'Mechanical Tensile and Pull-Tested Joint Durability Security'
+          ]
+        };
+      }
+
+      setSafetyAnalysisResponse(responseObj);
+      setIsAnalyzingSafety(false);
+    }, 1400);
+  };
+
   // Filtered and Sorted Products
   const getFilteredProducts = () => {
     let list = [...products];
@@ -283,23 +402,39 @@ export default function App() {
 
   const filteredProducts = getFilteredProducts();
 
-  // FAQs List for Board Approved Q&A
+  // FAQs List for Board Approved Q&A with rich metadata
   const FAQS = [
     {
       question: "What exactly makes clothing 'GOTS Certified Organic'?",
-      answer: "The Global Organic Textile Standard (GOTS) is the ultimate benchmark. It guarantees that the cotton is grown without toxic pesticides or genetically modified seeds, and that the entire manufacturing pipeline uses zero hazardous dyes, respects water processing conservation laws, and enforces fair trade social working standards."
+      answer: "The Global Organic Textile Standard (GOTS) is the ultimate benchmark. It guarantees that the cotton is grown without toxic pesticides or genetically modified seeds, and that the entire manufacturing pipeline uses zero hazardous dyes, respects water processing conservation laws, and enforces fair trade social working standards.",
+      category: "Material Toxicology",
+      advisorInitials: "MV",
+      advisorId: "vance",
+      advisorName: "Dr. Marcus Vance, PhD"
     },
     {
       question: "Are your baby carriers certified for infant hip health?",
-      answer: "Yes, absolutely. Our Nesta carriers are officially tested and certified as 'Hip Healthy' by the International Hip Dysplasia Institute. They support the crucial 'M-shape' posture, which positions the baby's knees higher than their hips, preventing joint displacement and promoting optimal orthopedic development."
+      answer: "Yes, absolutely. Our Nesta carriers are officially tested and certified as 'Hip Healthy' by the International Hip Dysplasia Institute. They support the crucial 'M-shape' posture, which positions the baby's knees higher than their hips, preventing joint displacement and promoting optimal orthopedic development.",
+      category: "Pediatric Orthopedics",
+      advisorInitials: "ET",
+      advisorId: "thorne",
+      advisorName: "Dr. Evelyn Thorne, MD, FAAP"
     },
     {
       question: "How do your toys comply with safety and chewing standards?",
-      answer: "Our developmental blocks and teething toys are crafted of 100% pure, medical-grade food silicone or FSC-certified hardwoods sealed with organic vegetable finishes. They carry rigorous ASTM F963 (U.S.) and EN71 (Europe) toy safety approvals, guaranteeing zero lead, phthalate, or microplastic release during oral teething exploration."
+      answer: "Our developmental blocks and teething toys are crafted of 100% pure, medical-grade food silicone or FSC-certified hardwoods sealed with organic vegetable finishes. They carry rigorous ASTM F963 (U.S.) and EN71 (Europe) toy safety approvals, guaranteeing zero lead, phthalate, or microplastic release during oral teething exploration.",
+      category: "Child Ergonomics",
+      advisorInitials: "SL",
+      advisorId: "lin",
+      advisorName: "Sarah Lin, OTR/L"
     },
     {
       question: "Why does organic bamboo fabric feel so soft compared to regular cotton?",
-      answer: "Bamboo fiber features naturally rounded microstructures that produce incredibly smooth, friction-free yarn. It is inherently hypoallergenic, temperature-regulating, and can absorb up to three times its weight in water, which makes it ideal for diaper-rash sensitive infants."
+      answer: "Bamboo fiber features naturally rounded microstructures that produce incredibly smooth, friction-free yarn. It is inherently hypoallergenic, temperature-regulating, and can absorb up to three times its weight in water, which makes it ideal for diaper-rash sensitive infants.",
+      category: "Material Toxicology",
+      advisorInitials: "MV",
+      advisorId: "vance",
+      advisorName: "Dr. Marcus Vance, PhD"
     }
   ];
 
@@ -686,49 +821,326 @@ export default function App() {
           </section>
 
           {/* Expert Pediatrician Advisory Board Q&A */}
-          <section className="bg-white py-16 border-t border-[#e9e3db]" id="pediatrician-qa-section" ref={aboutRef}>
-            <div className="max-w-4xl mx-auto px-4 sm:px-6">
-              <div className="text-center mb-10">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#bf826b] flex items-center justify-center gap-1">
-                  <ShieldCheck className="h-4 w-4 text-[#bf826b]" />
-                  Medical Advisory Council
+          <section className="bg-white py-20 border-t border-[#e9e3db]" id="pediatrician-qa-section" ref={aboutRef}>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              
+              {/* Header section with sophisticated clinical branding */}
+              <div className="text-center max-w-3xl mx-auto mb-16">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#fcf5f2] border border-[#f5e2db] text-[10px] font-bold uppercase tracking-widest text-[#bf826b] mb-4">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#bf826b]" />
+                  Clinical & Safety Vetted
                 </span>
-                <h2 className="font-sans font-semibold text-2xl text-[#323631] mt-2 tracking-tight">
-                  Expert Pediatric Guidance
+                <h2 className="font-sans font-semibold text-3xl md:text-4xl text-[#323631] tracking-tight">
+                  Medical Advisory Council
                 </h2>
-                <p className="text-xs text-[#6d756b] mt-1.5">
-                  We consult board-certified pediatricians and developmental psychologists on orthopedic posture safety, material toxicology, and child ergonomics.
+                <div className="h-1 w-12 bg-[#bf826b] mx-auto my-4 rounded-full"></div>
+                <p className="text-xs md:text-sm text-[#6d756b] leading-relaxed max-w-2xl mx-auto">
+                  Every swaddle, developmental play set, and nursery textile is strictly audited by our board of certified pediatricians, toxicologists, and early childhood occupational therapists. We certify materials at the molecular level and evaluate orthopedic physics to safeguard your nesting phase.
                 </p>
               </div>
 
-              {/* Collapsible Accordion Q&A */}
-              <div className="space-y-4" id="faq-accordion">
-                {FAQS.map((faq, index) => (
-                  <div 
-                    key={index} 
-                    className="border border-[#e9e3db] rounded-2xl overflow-hidden bg-[#faf8f5]/50 hover:bg-[#faf8f5] transition-colors"
+              {/* Roster Grid of our Council Members */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16" id="medical-board-roster">
+                {[
+                  {
+                    id: 'thorne',
+                    name: 'Dr. Evelyn Thorne, MD, FAAP',
+                    title: 'Chief of Pediatric Orthopedics',
+                    alma: 'Harvard Medical School',
+                    focus: 'Hip joint geometry, spinal alignment, safe swaddling',
+                    quote: "Nesta’s swaddles strictly maintain the 135° anatomical flexion index. This prevents cartilage wear and supports healthy hip socket alignment.",
+                    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300',
+                    badge: 'Orthopedics President'
+                  },
+                  {
+                    id: 'vance',
+                    name: 'Dr. Marcus Vance, PhD',
+                    title: 'Senior Pediatric Toxicologist',
+                    alma: 'Stanford University (Organic Chem)',
+                    focus: 'Chemical screen, raw organic fiber trace, non-toxic dyes',
+                    quote: "By verifying 0.00% pesticide trace down to parts per billion, Nesta protects your newborn's ultra-sensitive, hyper-permeable epidermal layers.",
+                    avatar: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300',
+                    badge: 'Toxicology Director'
+                  },
+                  {
+                    id: 'lin',
+                    name: 'Sarah Lin, OTR/L',
+                    title: 'Pediatric Occupational Therapist',
+                    alma: 'Boston University (Child Dev)',
+                    focus: 'Sensory thresholds, fine motor grasp reflexes, ergonomics',
+                    quote: "The weight and structural density of Nesta’s solid birch toy kits are custom calibrated to satisfy grasp reflexes without sensory flooding.",
+                    avatar: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=300',
+                    badge: 'Development Specialist'
+                  }
+                ].map((member) => (
+                  <div
+                    key={member.id}
+                    onClick={() => setActiveAdvisorId(activeAdvisorId === member.id ? 'all' : member.id)}
+                    className={`bg-white rounded-3xl p-6 border transition-all duration-300 cursor-pointer relative group flex flex-col justify-between ${
+                      activeAdvisorId === member.id 
+                        ? 'border-[#5c6a5a] ring-1 ring-[#5c6a5a] shadow-lg scale-[1.02]' 
+                        : 'border-[#e9e3db] hover:border-[#6d756b] hover:shadow-md'
+                    }`}
+                    id={`advisor-card-${member.id}`}
                   >
-                    <button
-                      onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                      className="w-full text-left p-5 flex justify-between items-center cursor-pointer"
-                      id={`faq-btn-${index}`}
-                    >
-                      <span className="font-sans font-semibold text-xs md:text-sm text-[#323631] pr-4">
-                        {faq.question}
-                      </span>
-                      <span className="text-[#5c6a5a] font-bold shrink-0">
-                        {expandedFaq === index ? '−' : '+'}
-                      </span>
-                    </button>
-                    
-                    {expandedFaq === index && (
-                      <div className="px-5 pb-5 pt-1 text-xs md:text-sm text-[#6d756b] leading-relaxed border-t border-[#f5f1ea] bg-white animate-fade-in">
-                        {faq.answer}
+                    <div>
+                      {/* Active Filter Glow Pin */}
+                      {activeAdvisorId === member.id && (
+                        <span className="absolute top-4 right-4 flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5c6a5a] opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5c6a5a]"></span>
+                        </span>
+                      )}
+
+                      <div className="flex items-center gap-4 mb-5">
+                        <img 
+                          src={member.avatar} 
+                          alt={member.name}
+                          referrerPolicy="no-referrer"
+                          className="w-14 h-14 rounded-full object-cover border-2 border-[#e9e3db] group-hover:border-[#5c6a5a] transition-all"
+                        />
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-[#bf826b]">{member.badge}</p>
+                          <h4 className="font-sans font-bold text-sm text-[#323631] leading-tight">{member.name}</h4>
+                          <div className="flex items-center gap-1 text-[10px] text-[#848c82] mt-0.5 font-medium">
+                            <GraduationCap className="h-3.5 w-3.5 shrink-0 text-[#848c82]" />
+                            {member.alma}
+                          </div>
+                        </div>
                       </div>
-                    )}
+
+                      <div className="space-y-2 mb-6">
+                        <div className="text-[11px] bg-[#faf8f5] px-2.5 py-1.5 rounded-lg border border-[#e9e3db]/30">
+                          <strong className="text-[#323631] font-semibold block mb-0.5 text-[10px] uppercase tracking-wider">Clinical Focus</strong>
+                          <span className="text-[#6d756b]">{member.focus}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-[#f5f1ea] pt-4 mt-auto">
+                      <div className="relative">
+                        <Quote className="absolute -top-2 -left-2 h-6 w-6 text-[#faf8f5] group-hover:text-gray-100 transition-colors -z-0" />
+                        <p className="text-xs text-[#6d756b] italic relative z-10 pl-3 leading-relaxed">
+                          "{member.quote}"
+                        </p>
+                      </div>
+                      <button 
+                        type="button"
+                        className={`w-full mt-5 py-2 px-4 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all border ${
+                          activeAdvisorId === member.id
+                            ? 'bg-[#5c6a5a] text-white border-[#5c6a5a]'
+                            : 'bg-white text-[#5c6a5a] border-[#e9e3db] hover:bg-[#faf8f5]'
+                        }`}
+                      >
+                        {activeAdvisorId === member.id ? 'Viewing Specialty Q&A' : 'Filter Specialty Q&As'}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
+
+              {/* Live interactive panel for Safety analysis and FAQs */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                {/* Left Column: Interactive clinical safety verification center */}
+                <div className="lg:col-span-5 bg-[#faf8f5]/50 border border-[#e9e3db] rounded-3xl p-6 md:p-8 shadow-xs" id="safety-terminal">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="p-1.5 bg-[#f5f1ea] text-[#323631] rounded-lg">
+                      <Stethoscope className="h-4 w-4 text-[#5c6a5a]" />
+                    </div>
+                    <div>
+                      <h3 className="font-sans font-bold text-sm text-[#323631]">Pediatric Safety Desk</h3>
+                      <p className="text-[10px] text-[#848c82]">On-Demand Council Toxicology & Ergonomic Audit</p>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-[#6d756b] leading-relaxed mb-6">
+                    Enter a component, material, or developmental metric to verify its official medical council status. Try typing keywords like <span className="font-semibold text-[#323631]">swaddle</span>, <span className="font-semibold text-[#323631]">pesticide</span>, <span className="font-semibold text-[#323631]">wood</span>, or <span className="font-semibold text-[#323631]">carrier</span>.
+                  </p>
+
+                  <form onSubmit={handleSafetyInquirySubmit} className="space-y-4">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={safetyInquiryInput}
+                        onChange={(e) => setSafetyInquiryInput(e.target.value)}
+                        placeholder="e.g., Are your baby carriers safe for hips?"
+                        className="w-full pl-4 pr-12 py-3 text-xs bg-white border border-[#e9e3db] rounded-xl focus:outline-hidden focus:ring-1 focus:ring-[#5c6a5a]"
+                        disabled={isAnalyzingSafety}
+                      />
+                      <button
+                        type="submit"
+                        disabled={isAnalyzingSafety || !safetyInquiryInput.trim()}
+                        className="absolute right-2 top-2 p-1.5 bg-[#5c6a5a] text-white rounded-lg hover:bg-[#4d594b] disabled:opacity-50 disabled:bg-gray-300 transition-all cursor-pointer flex items-center justify-center"
+                      >
+                        <Send className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Pre-made Quick Presets */}
+                    <div>
+                      <p className="text-[10px] text-[#848c82] uppercase font-bold tracking-wider mb-2">Popular Safety Verifications</p>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { text: "💤 swaddle hip safety", q: "hip" },
+                          { text: "🌱 cotton chemical test", q: "cotton" },
+                          { text: "🧸 toxic toy chewing check", q: "chew" }
+                        ].map((preset, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleSafetyInquirySubmit(undefined, preset.q)}
+                            disabled={isAnalyzingSafety}
+                            className="text-[10px] bg-white hover:bg-[#f5f1ea] border border-[#e9e3db] text-[#6d756b] font-medium px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                          >
+                            {preset.text}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </form>
+
+                  {/* Dynamic verification result screen */}
+                  <div className="mt-6 border-t border-[#f5f1ea] pt-6" id="safety-terminal-results">
+                    {isAnalyzingSafety ? (
+                      <div className="py-8 text-center space-y-3 bg-white rounded-2xl border border-[#e9e3db]/50 p-4">
+                        <div className="inline-block animate-spin rounded-full h-5 w-5 border-2 border-[#5c6a5a] border-t-transparent"></div>
+                        <div className="space-y-1">
+                          <p className="text-xs font-semibold text-[#323631] animate-pulse">Running Pediatric Safety Screening...</p>
+                          <p className="text-[10px] text-[#848c82]">Vetting raw mass-spec parameters against IHDI standards</p>
+                        </div>
+                      </div>
+                    ) : safetyAnalysisResponse ? (
+                      <div className="bg-[#f2f8f2] border border-[#cbe4cb] rounded-2xl p-4 md:p-5 relative overflow-hidden animate-fade-in shadow-xs">
+                        
+                        {/* Certificate background watermark stamp */}
+                        <div className="absolute -bottom-6 -right-6 opacity-5 pointer-events-none">
+                          <ShieldCheck className="h-28 w-28 text-emerald-900" />
+                        </div>
+
+                        <div className="flex items-center justify-between mb-3 border-b border-[#dfefdf] pb-2.5">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 uppercase tracking-widest bg-emerald-100 px-2 py-0.5 rounded-full">
+                            <CheckCircle className="h-3 w-3 text-emerald-700" />
+                            {safetyAnalysisResponse.status} & VETTED
+                          </span>
+                          <span className="text-[9px] text-[#848c82] font-mono">ID: NST-AUD-2026</span>
+                        </div>
+
+                        <h4 className="font-sans font-bold text-xs text-emerald-950 mb-2">{safetyAnalysisResponse.title}</h4>
+                        <p className="text-[11px] text-[#4d594b] leading-relaxed mb-4">
+                          {safetyAnalysisResponse.response}
+                        </p>
+
+                        <div className="space-y-2 border-t border-[#dfefdf] pt-3">
+                          <p className="text-[9px] uppercase font-bold tracking-wider text-emerald-900">Certified Board Vouchers</p>
+                          <ul className="space-y-1.5">
+                            {safetyAnalysisResponse.vettedMetrics.map((metric, mIdx) => (
+                              <li key={mIdx} className="flex gap-2 text-[10px] text-[#556353] leading-snug">
+                                <span className="text-emerald-700 font-bold">✓</span>
+                                <span>{metric}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="mt-4 pt-3 border-t border-[#dfefdf] flex items-center justify-between">
+                          <div>
+                            <p className="text-[9px] font-bold text-[#323631] leading-tight">{safetyAnalysisResponse.advisorName}</p>
+                            <p className="text-[8px] text-[#848c82]">{safetyAnalysisResponse.advisorTitle}</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="inline-block border-2 border-dashed border-emerald-300 text-emerald-700 text-[8px] font-bold uppercase px-2 py-1 rounded-md rotate-[-4deg] tracking-wider">
+                              Medical Approved
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-10 bg-white border border-dashed border-[#e9e3db] rounded-2xl p-4">
+                        <Activity className="h-6 w-6 text-[#848c82] mx-auto mb-2.5" />
+                        <p className="text-xs font-medium text-[#323631]">Safety verification terminal idle</p>
+                        <p className="text-[10px] text-[#848c82] mt-0.5 max-w-[200px] mx-auto">Submit a query or click a quick check preset above to initiate clinical review scans</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Column: High-fidelity categorized Accordion FAQs */}
+                <div className="lg:col-span-7 space-y-4" id="faq-accordion">
+                  <div className="flex items-center justify-between border-b border-[#e9e3db] pb-3 mb-2">
+                    <h3 className="font-sans font-bold text-xs text-[#323631] uppercase tracking-wider">
+                      {activeAdvisorId === 'all' 
+                        ? 'Frequently Answered Inquiries' 
+                        : `Vetted Q&As: ${activeAdvisorId === 'thorne' ? 'Dr. Thorne' : activeAdvisorId === 'vance' ? 'Dr. Vance' : 'Sarah Lin'}`
+                      }
+                    </h3>
+                    {activeAdvisorId !== 'all' && (
+                      <button 
+                        type="button"
+                        onClick={() => setActiveAdvisorId('all')}
+                        className="text-[10px] text-[#5c6a5a] hover:text-[#323631] font-bold hover:underline cursor-pointer"
+                      >
+                        Reset Filter
+                      </button>
+                    )}
+                  </div>
+
+                  {FAQS.filter(faq => activeAdvisorId === 'all' || faq.advisorId === activeAdvisorId).map((faq, index) => {
+                    const isExpanded = expandedFaq === index;
+                    return (
+                      <div 
+                        key={index} 
+                        className={`border rounded-2xl overflow-hidden transition-all duration-300 bg-white ${
+                          isExpanded 
+                            ? 'border-[#5c6a5a] shadow-xs' 
+                            : 'border-[#e9e3db] hover:border-[#6d756b] bg-[#faf8f5]/20 hover:bg-[#faf8f5]/50'
+                        }`}
+                        id={`faq-row-${index}`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setExpandedFaq(isExpanded ? null : index)}
+                          className="w-full text-left p-5 flex justify-between items-start gap-4 cursor-pointer"
+                          id={`faq-btn-${index}`}
+                        >
+                          <div className="space-y-1.5 text-left">
+                            <div className="flex flex-wrap gap-1.5 items-center">
+                              <span className="inline-flex items-center text-[9px] font-extrabold uppercase tracking-widest bg-[#f5f1ea] text-[#6d756b] px-2 py-0.5 rounded-md">
+                                {faq.category}
+                              </span>
+                              <span className="text-[9px] text-[#848c82]">
+                                Vetted by <strong className="text-[#5c6a5a]">{faq.advisorInitials}</strong>
+                              </span>
+                            </div>
+                            <span className="block font-sans font-semibold text-xs md:text-sm text-[#323631] leading-snug">
+                              {faq.question}
+                            </span>
+                          </div>
+                          <span className={`text-[#5c6a5a] font-bold shrink-0 text-lg transition-transform duration-300 mt-1 ${isExpanded ? 'rotate-180' : ''}`}>
+                            {isExpanded ? '−' : '+'}
+                          </span>
+                        </button>
+                        
+                        {isExpanded && (
+                          <div className="px-5 pb-5 pt-0.5 text-xs md:text-sm text-[#6d756b] leading-relaxed border-t border-[#f5f1ea] bg-white animate-fade-in space-y-4">
+                            <p className="text-left">{faq.answer}</p>
+                            <div className="bg-[#faf8f5] p-3 rounded-xl border border-[#e9e3db]/40 flex gap-3 items-center">
+                              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5c6a5a] text-[10px] font-bold text-white uppercase">
+                                {faq.advisorInitials}
+                              </span>
+                              <div className="text-left">
+                                <p className="text-[10px] font-bold text-[#323631] leading-tight">Official Guidance Statement</p>
+                                <p className="text-[9px] text-[#848c82]">Authored by {faq.advisorName}</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
           </section>
 
