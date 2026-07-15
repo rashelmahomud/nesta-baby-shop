@@ -232,31 +232,31 @@ export default function CustomerDashboard({
     <div className="bg-[#FAF9F6] border border-[#e9e3db] rounded-3xl p-4 md:p-8 shadow-xs animate-fade-in text-[#323631]" id="customer-dashboard-container">
       
       {/* Upper Status Bar & Member Badges */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 pb-6 border-b border-[#e9e3db]/80 mb-8">
-        <div className="space-y-2.5">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 pb-6 border-b border-[#e9e3db]/80 mb-8 w-full min-w-0" id="customer-dashboard-header-bar">
+        <div className="space-y-2.5 min-w-0 w-full xl:max-w-2xl">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="bg-[#5c6a5a]/10 text-[#5c6a5a] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-[#5c6a5a]/15 flex items-center gap-1">
+            <span className="bg-[#5c6a5a]/10 text-[#5c6a5a] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-[#5c6a5a]/15 flex items-center gap-1 shrink-0">
               <ShieldCheck className="h-3.5 w-3.5" />
               Verified Parent Nest Member
             </span>
-            <span className="bg-[#bf826b]/10 text-[#bf826b] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1 border border-[#bf826b]/15 animate-pulse">
+            <span className="bg-[#bf826b]/10 text-[#bf826b] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1 border border-[#bf826b]/15 animate-pulse shrink-0">
               <Award className="h-3.5 w-3.5 fill-[#bf826b]/10" />
               Nesting Green Gold Status
             </span>
           </div>
           
-          <div>
-            <h2 className="font-sans font-medium text-3xl text-[#323631] tracking-tight">
-              Welcome to Your Nest, <span className="font-semibold text-[#5c6a5a]">{loggedInUser}</span>
+          <div className="min-w-0 w-full">
+            <h2 className="font-sans font-medium text-xl sm:text-2xl lg:text-3xl text-[#323631] tracking-tight leading-snug break-words">
+              Welcome to Your Nest, <span className="font-semibold text-[#5c6a5a] break-all">{loggedInUser}</span>
             </h2>
-            <p className="text-xs text-[#848c82] mt-1 max-w-xl leading-relaxed">
+            <p className="text-xs text-[#848c82] mt-1.5 max-w-xl leading-relaxed">
               Managing your developmental milestone roadmap, ecological impact metrics, and active organic order deliveries from one single dashboard.
             </p>
           </div>
         </div>
 
         {/* Dashboard Navigation Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto" id="dashboard-subtabs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto shrink-0" id="dashboard-subtabs">
           {[
             { id: 'overview', label: '🌱 Nesting Hub', icon: Sprout },
             { id: 'orders', label: '📦 Orders & Shipping', icon: ShoppingBag },

@@ -61,9 +61,9 @@ export default function RegistryBuilder({ onAddRegistryToCart, onClose }: Regist
   return (
     <div className="bg-[#faf8f5] border border-[#e9e3db] rounded-3xl p-6 md:p-8 max-w-4xl mx-auto my-6" id="registry-builder">
       {/* Title Header */}
-      <div className="flex items-center justify-between border-b border-[#e9e3db] pb-5 mb-6" id="registry-title-header">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e9e3db] pb-5 mb-6" id="registry-title-header">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-[#f1ebe1] text-[#bf826b] rounded-2xl">
+          <div className="p-2.5 bg-[#f1ebe1] text-[#bf826b] rounded-2xl shrink-0">
             <Gift className="h-6 w-6" />
           </div>
           <div>
@@ -73,7 +73,7 @@ export default function RegistryBuilder({ onAddRegistryToCart, onClose }: Regist
         </div>
         <button
           onClick={onClose}
-          className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-[#e9e3db] hover:bg-white text-[#6d756b] cursor-pointer"
+          className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-[#e9e3db] hover:bg-white text-[#6d756b] cursor-pointer self-start sm:self-auto shrink-0"
         >
           Back to Shop
         </button>

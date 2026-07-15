@@ -339,19 +339,19 @@ export default function AdminDashboard({
     <div className="bg-[#FAF9F6] border border-[#e9e3db] rounded-3xl p-4 md:p-8 shadow-xs animate-fade-in text-[#323631]" id="admin-dashboard-container">
       
       {/* Header telemetry and indicators */}
-      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 pb-6 border-b border-[#e9e3db] mb-8">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="bg-[#bf826b]/10 text-[#bf826b] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1.5 border border-[#bf826b]/15">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 pb-6 border-b border-[#e9e3db] mb-8 w-full min-w-0" id="admin-dashboard-header-bar">
+        <div className="space-y-2 min-w-0 w-full xl:max-w-2xl">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="bg-[#bf826b]/10 text-[#bf826b] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1.5 border border-[#bf826b]/15 shrink-0">
               <Sparkles className="h-3.5 w-3.5 fill-current" />
               Nesting Control Panel
             </span>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 shrink-0">
               <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-[10px] font-bold text-green-700 uppercase tracking-widest">Active Dispatch Online</span>
             </div>
           </div>
-          <h2 className="font-sans font-semibold text-3xl text-[#323631] tracking-tight">
+          <h2 className="font-sans font-semibold text-xl sm:text-2xl lg:text-3xl text-[#323631] tracking-tight leading-snug break-words">
             Storefront Manager Station
           </h2>
           <p className="text-xs text-[#848c82] leading-relaxed max-w-xl">
@@ -360,7 +360,7 @@ export default function AdminDashboard({
         </div>
 
         {/* Navigation buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto" id="admin-tabs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 xl:flex xl:flex-row gap-2 w-full xl:w-auto shrink-0" id="admin-tabs">
           {[
             { id: 'metrics', label: '📊 Sales Metrics', icon: BarChart2 },
             { id: 'catalog', label: '📦 SKU Inventory', icon: Package },
