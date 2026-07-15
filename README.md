@@ -1,11 +1,25 @@
-<div align="center">
+# nesta-baby-shops
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+Consciously Crafted for Precious Beginnings. Curated organic nursery essentials pediatrician-tested and certified.
 
-  <h1>Built with AI Studio</h2>
+## Features
+- **Editorial Hero Layout & Navigation**: Fully responsive editorial header, smooth navigation, and a dynamic hero section.
+- **Pediatrician-Approved Trust Badges**: Trust badges highlighting the organic and pediatrician-certified standards.
+- **Interactive Registry Builder**: An interactive nursery registry planner allowing parents to build and share registries.
+- **Shopping Cart Drawer**: Sliding side cart drawer for managing item quantities seamlessly.
+- **Immersive Product Detail Modal**: Detailed look at organic ingredients, reviews, and clinical safety ratings.
+- **Checkout Sandbox**: A billing and address simulation sandbox for test orders.
+- **Parenting Login Sandbox**: A login simulation with custom avatar options and baby registry personalization.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Tech Stack
+- **React 18** & **Vite**
+- **Tailwind CSS**
+- **Framer Motion** (via `motion/react`)
+- **Lucide React** for premium vector icons
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+## Development
+To run the development server locally:
+```bash
+npm install
+npm run dev
+```
