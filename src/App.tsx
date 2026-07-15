@@ -807,7 +807,7 @@ export default function App() {
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-xl text-[#323631] tracking-tight leading-none flex items-center gap-0.5">
-                  nesta
+                  baby-shop
                   <span className="text-[#bf826b] font-serif font-light text-lg leading-none">.</span>
                 </span>
                 <span className="font-sans font-semibold tracking-[0.2em] text-[8px] uppercase text-[#848c82] mt-1 leading-none">
@@ -857,7 +857,7 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-[#f5f1ea] text-center flex flex-col sm:flex-row justify-between items-center gap-4" id="footer-bottom">
           <p className="text-[10px] text-[#848c82]">
-            &copy; 2026 Nesta Baby & Co. All rights reserved. Consciously made for safety, development, and deep sleep.
+            &copy; 2026 baby-shop & Co. All rights reserved. Consciously made for safety, development, and deep sleep.
           </p>
           <div className="flex gap-4 text-[10px] text-[#848c82]">
             <span className="cursor-default">Privacy Policy</span>

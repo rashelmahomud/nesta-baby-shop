@@ -69,8 +69,8 @@ export default function Header({
               <Sprout className="h-5 w-5 transition-all duration-500 ease-out transform group-hover:scale-110 group-hover:rotate-12" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display font-bold text-2xl text-[#323631] tracking-tight leading-none flex items-center gap-0.5">
-                nesta
+              <span className="font-display font-bold text-2xl text-[#323631] tracking-tight leading-none flex items-center gap-0.5 animate-pulse">
+                baby-shop
                 <span className="text-[#bf826b] font-serif font-light text-xl leading-none">.</span>
               </span>
               <span className="font-sans font-bold tracking-[0.2em] text-[8px] uppercase text-[#848c82] mt-1.5 leading-none group-hover:text-[#5c6a5a] transition-colors duration-300">

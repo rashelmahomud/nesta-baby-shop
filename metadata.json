@@ -1,5 +1,5 @@
 {
-  "name": "Baby Product Store & Registry",
+  "name": "baby-shop",
   "description": "A modern baby product storefront and registry builder featuring organic, pediatrician-approved products for new parents.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
