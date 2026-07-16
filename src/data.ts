@@ -11,7 +11,7 @@ export const TRUST_FEATURES = [
   {
     title: "Pediatrician Evaluated",
     description: "Every item is reviewed by leading pediatric medical experts for developmental safety.",
-    icon: "Heart"
+    icon: "Hearts"
   },
   {
     title: "Non-Toxic Materials",
